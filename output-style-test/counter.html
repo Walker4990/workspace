@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카운터 앱</title>
+    <style>
+        /* 전체 페이지의 배경과 폰트 설정 */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* 카운터 박스를 가운데에 배치 */
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        /* 제목 스타일 */
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        /* 숫자를 표시하는 부분 */
+        .counter-display {
+            font-size: 60px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 30px 0;
+            min-height: 80px;
+        }
+
+        /* 버튼 스타일 */
+        button {
+            font-size: 18px;
+            padding: 12px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* 증가 버튼 */
+        .btn-increase {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .btn-increase:hover {
+            background-color: #5568d3;
+        }
+
+        /* 감소 버튼 */
+        .btn-decrease {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        .btn-decrease:hover {
+            background-color: #ff5252;
+        }
+
+        /* 초기화 버튼 */
+        .btn-reset {
+            background-color: #4ecdc4;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background-color: #45b7b0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 카운터 앱</h1>
+        <!-- 숫자를 표시하는 부분 (id로 JavaScript에서 접근) -->
+        <div class="counter-display" id="counter">0</div>
+
+        <!-- 버튼들 -->
+        <div>
+            <button class="btn-decrease" onclick="decreaseCounter()">➖ 감소</button>
+            <button class="btn-increase" onclick="increaseCounter()">➕ 증가</button>
+        </div>
+        <div>
+            <button class="btn-reset" onclick="resetCounter()">🔄 초기화</button>
+        </div>
+    </div>
+
+    <script>
+        // 카운터 값을 저장하는 변수
+        let count = 0;
+
+        // 증가 함수: 버튼을 누르면 숫자가 1 증가
+        function increaseCounter() {
+            count = count + 1;  // count를 1 증가
+            updateDisplay();    // 화면에 새로운 숫자를 표시
+        }
+
+        // 감소 함수: 버튼을 누르면 숫자가 1 감소
+        function decreaseCounter() {
+            count = count - 1;  // count를 1 감소
+            updateDisplay();    // 화면에 새로운 숫자를 표시
+        }
+
+        // 초기화 함수: 버튼을 누르면 숫자가 0으로 돌아감
+        function resetCounter() {
+            count = 0;          // count를 0으로 설정
+            updateDisplay();    // 화면에 새로운 숫자를 표시
+        }
+
+        // 화면을 업데이트하는 함수
+        function updateDisplay() {
+            // id가 "counter"인 요소를 찾아서 현재 count 값을 표시
+            document.getElementById('counter').textContent = count;
+        }
+    </script>
+</body>
+</html>

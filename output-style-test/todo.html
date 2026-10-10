@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO LIST</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        li:hover {
+            background: #f0f0f0;
+        }
+
+        li.completed {
+            opacity: 0.6;
+        }
+
+        li.completed span {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .todo-text {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background: #ff6b6b;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        .delete-btn:hover {
+            background: #ff5252;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 TODO LIST</h1>
+
+        <div class="input-group">
+            <input
+                type="text"
+                id="todoInput"
+                placeholder="새로운 할일을 입력하세요..."
+                onkeypress="if(event.key === 'Enter') addTodo()"
+            >
+            <button onclick="addTodo()">추가</button>
+        </div>
+
+        <ul id="todoList">
+            <div class="empty-message">할일을 추가해보세요!</div>
+        </ul>
+    </div>
+
+    <script>
+        let todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+        function saveTodos() {
+            localStorage.setItem('todos', JSON.stringify(todos));
+        }
+
+        function renderTodos() {
+            const todoList = document.getElementById('todoList');
+
+            if (todos.length === 0) {
+                todoList.innerHTML = '<div class="empty-message">할일을 추가해보세요!</div>';
+                return;
+            }
+
+            todoList.innerHTML = todos.map((todo, index) => `
+                <li class="${todo.completed ? 'completed' : ''}">
+                    <span class="todo-text" onclick="toggleTodo(${index})">${todo.text}</span>
+                    <button class="delete-btn" onclick="deleteTodo(${index})">삭제</button>
+                </li>
+            `).join('');
+        }
+
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const text = input.value.trim();
+
+            if (text === '') {
+                alert('할일을 입력해주세요!');
+                return;
+            }
+
+            todos.push({ text, completed: false });
+            saveTodos();
+            renderTodos();
+            input.value = '';
+            input.focus();
+        }
+
+        function toggleTodo(index) {
+            todos[index].completed = !todos[index].completed;
+            saveTodos();
+            renderTodos();
+        }
+
+        function deleteTodo(index) {
+            todos.splice(index, 1);
+            saveTodos();
+            renderTodos();
+        }
+
+        renderTodos();
+    </script>
+</body>
+</html>
